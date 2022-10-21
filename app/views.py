@@ -12,8 +12,12 @@ def home(request):
     if request.user.is_authenticated:
         customer = request.user
         likes = Like.objects.filter(customer=customer)
-
-    context = {'events':events}
+        print([l.event.id for l in likes])
+        eventId = [l.event.id for l in likes]
+        context = {'events':events,'eventId': eventId}
+    else:
+        context = {'events':events}
+        
     return render(request,'app/home.html',context)
 
 def likes(request):
@@ -29,17 +33,17 @@ def likes(request):
             if likes:
                 # for like in likes:
                 try:
-                    likedEvent = Like.objects.get(event_id=eventId)
-                    Event.objects.filter(id=eventId).update(is_liked='False')
+                    likedEvent = Like.objects.get(event_id=eventId,is_liked='True')
+                    # Event.objects.filter(id=eventId).update(is_liked='False')
                     likedEvent.delete()
                     liked = False
                 except:
-                    likedEvent = Like.objects.create(customer=customer,event_id=eventId)
-                    Event.objects.filter(id=eventId).update(is_liked='True')
+                    likedEvent = Like.objects.create(customer=customer,event_id=eventId,is_liked='True')
+                    # Like.objects.filter(id=eventId).update(is_liked='True')
                     liked=True
             else:
-                likedEvent = Like.objects.create(customer=request.user,event_id=eventId)
-                Event.objects.filter(id=eventId).update(is_liked='True')
+                likedEvent = Like.objects.create(customer=request.user,event_id=eventId,is_liked='True')
+                # Event.objects.filter(id=eventId).update(is_liked='True')
                 liked=True
 
             ctx={"liked":liked,'eventId':eventId,'login':True}

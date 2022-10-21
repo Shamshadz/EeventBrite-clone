@@ -5,6 +5,7 @@
 
 {% if user.is_authenticated %}
 <div class="container" style="text-align: center; justify-content: center;">
+    {% if likedEvt %}
     {% for like in likedEvt %}
     <div class="card mb-3" style="max-width: 540px;">
         <div class="row g-0">
@@ -25,6 +26,11 @@
         </div>
     </div>
     {% endfor %}
+    {% else %}
+    <div class="container">
+        <h3>No liked Event!</h3>
+    </div>
+    {% endif %}
 </div>
 {% else %}
 <h3>### LOGIN TO ADD LIKED EVENTS ###</h3>
@@ -48,10 +54,17 @@
                     id: id
                 },   /* Passing the text data */
                 success: function (response) {
-                    alert('Added to likes section ):');
-                    alert(response);
-                    console.log(response);
-                    if (response.liked == false) {
+                    if (response.liked == true) {
+                        alert('Added to likes ):');
+                    }
+                    else if (response.liked == false) {
+                        alert('Removed Liked Event ):');
+                    }
+
+                    if (response.liked == true) {
+                        $('#' + id + ' i').css("color", "red");
+                    }
+                    else if (response.liked == false) {
                         $('#' + id + ' i').css("color", "black");
                     }
                 }

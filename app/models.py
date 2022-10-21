@@ -9,8 +9,9 @@ class Event(models.Model):
     time = models.TimeField()
     location = models.CharField(max_length=200)
     image = models.ImageField(null=True,blank=True)
-    is_liked = models.BooleanField(default=False)
+    
 
 class Like(models.Model):
     customer = models.ForeignKey(User,on_delete=models.CASCADE)
     event = models.ForeignKey(Event,on_delete=models.SET_NULL,null=True)
+    is_liked = models.BooleanField(default=False)
