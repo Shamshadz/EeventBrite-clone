@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    {% if user.is_authenticated %}
+    <h3>Crete Event Here</h3>
+    <form method="post" action="/createEvent" enctype='multipart/form-data'>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
+
+    {% else %}
+    <H3>Login to Create Event</H3>
+    {% endif %}
+</div>
+{% endblock %}

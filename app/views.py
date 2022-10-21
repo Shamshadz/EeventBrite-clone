@@ -1,5 +1,6 @@
-from multiprocessing import Event
-from django.shortcuts import render,HttpResponse
+from app.forms import EventForm
+from django.shortcuts import render,redirect
+from django.http import HttpResponse
 from app.models import Event, Like
 import json
 
@@ -44,3 +45,15 @@ def likes(request):
     context={'likes':likes}
 
     return render(request,'app/likes.html',context)
+
+def createEvent(request):
+    form = EventForm(request.POST or None , request.FILES)
+    if request.method == "POST":
+        if form.is_valid():
+            event = form.save(commit=False)
+            event.user = request.user
+            event.save()
+            return redirect('home')
+
+    context = {'form': form}
+    return render(request, 'app/crtEvt.html',context)
