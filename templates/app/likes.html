@@ -3,8 +3,9 @@
 
 {% block content %}
 
+{% if user.is_authenticated %}
 <div class="container" style="text-align: center; justify-content: center;">
-    {% for like in likes %}
+    {% for like in likedEvt %}
     <div class="card mb-3" style="max-width: 540px;">
         <div class="row g-0">
             <div class="col-md-4">
@@ -18,13 +19,16 @@
             </div>
             <div class="col-md-2" style="margin: auto;">
                 <button class="likeBtn" data-id="{{ like.event.id }}" id="{{ like.event.id }}">
-                    <i class="fa-solid fa-heart"></i>
+                    <i style="color: red;" class="fa-solid fa-heart"></i>
                 </button>
             </div>
         </div>
     </div>
     {% endfor %}
 </div>
+{% else %}
+<h3>### LOGIN TO ADD LIKED EVENTS ###</h3>
+{% endif %}
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <script>
@@ -47,10 +51,7 @@
                     alert('Added to likes section ):');
                     alert(response);
                     console.log(response);
-                    if (response.liked == true) {
-                        $('#' + id + ' i').css("color", "red");
-                    }
-                    else if (response.liked == false) {
+                    if (response.liked == false) {
                         $('#' + id + ' i').css("color", "black");
                     }
                 }
