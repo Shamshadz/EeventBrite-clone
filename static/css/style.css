@@ -1,0 +1,33 @@
+.fabicon{
+    color: white;
+    padding: 0 2%;
+    text-align: center;
+}
+
+.fabicon li{
+    list-style: none;
+}
+
+.fabicon a{
+    text-decoration: none;
+    color:inherit;
+}
+
+.fabicon a:hover {
+    color:#c60031; 
+    text-decoration:none; 
+    cursor:pointer;  
+}
+
+.card-container{
+    display: flex;
+    padding: 1%;
+}
+
+.card button{
+    border-radius: 50%;
+}
+
+.card i{
+    color: red;
+}
