@@ -20,14 +20,9 @@
 }
 
 .card-container{
-    display: flex;
     padding: 1%;
 }
 
 .card button{
     border-radius: 50%;
-}
-
-.card i{
-    color: red;
 }

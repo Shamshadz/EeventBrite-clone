@@ -1,6 +1,7 @@
 from multiprocessing import Event
-from django.shortcuts import render
+from django.shortcuts import render,HttpResponse
 from app.models import Event, Like
+import json
 
 # Create your views here.
 def home(request):
@@ -21,23 +22,23 @@ def likes(request):
 
             if likes:
                 for like in likes:
-                    for event in event:
-                        try:
-                            likedEvent = Like.objects.get(event_id=eventId)
-                        except:
-                            likedEvent = Like.objects.create(customer=customer,event_id=eventId)
+                            try:
+                                likedEvent = Like.objects.get(event_id=eventId)
+                                likedEvent.delete()
+                                liked = False
+                            except:
+                                likedEvent = Like.objects.create(customer=customer,event_id=eventId)
+                                liked=True
             else:
-                likes= Like.objects.create(customer=request.user)
-                
-                likedEvent = Like.objects.create(customer=customer,event_id=eventId)
+                likedEvent = Like.objects.create(customer=request.user,event_id=eventId)
+                liked=True
+
+            ctx={"liked":liked,'eventId':eventId}
+            return HttpResponse(json.dumps(ctx), content_type='application/json')
 
     if request.user.is_authenticated:
             customer = request.user
             likes = Like.objects.filter(customer=customer)
-
-            for like in likes:
-                print(like)
-                print(like.event.event_name)
 
 
     context={'likes':likes}

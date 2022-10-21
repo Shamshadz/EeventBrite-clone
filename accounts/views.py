@@ -26,7 +26,7 @@ def signup(request):
     events = Event.objects.all()
     context = {'events':events}
 
-    return render(request, 'app.home.html', context)
+    return render(request, 'accounts/signup.html', context)
 
 def login(request):
 
@@ -48,7 +48,7 @@ def login(request):
     events = Event.objects.all()
     context = {'events':events}
 
-    return render(request, 'app/home.html', context)
+    return render(request, 'accounts/login.html', context)
 
 
 def logout(request):

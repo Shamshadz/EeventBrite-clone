@@ -3,20 +3,60 @@
 
 {% block content %}
 
-{% for event in likes %}
-<div class="card mb-3" style="max-width: 540px;">
-    <div class="row g-0">
-      <div class="col-md-4">
-        <img src="{{ event.image.url }}" class="img-fluid rounded-start" alt="...">
-      </div>
-      <div class="col-md-8">
-        <div class="card-body">
-          <h5 class="card-title">{{ event.event_name }}</h5>
-          <p class="card-text">{{ event.location }}</p>
+<div class="container" style="text-align: center; justify-content: center;">
+    {% for like in likes %}
+    <div class="card mb-3" style="max-width: 540px;">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img src="{{ like.event.image.url }}" class="img-fluid rounded-start" alt="...">
+            </div>
+            <div class="col-md-6">
+                <div class="card-body">
+                    <h5 class="card-title">{{ like.event.event_name }}</h5>
+                    <p class="card-text">{{ like.event.location }}</p>
+                </div>
+            </div>
+            <div class="col-md-2" style="margin: auto;">
+                <button class="likeBtn" data-id="{{ like.event.id }}" id="{{ like.event.id }}">
+                    <i class="fa-solid fa-heart"></i>
+                </button>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
-{% endfor %}
+    {% endfor %}
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script>
+
+    $(function () {
+        $('.likeBtn').on('click', function () {
+            //Fetch Id 
+            var id = $(this).data('id');
+            console.log(id)
+
+            $.ajax({
+                type: "POST",
+                url: '/likes',
+
+                data: {
+                    csrfmiddlewaretoken: '{{ csrf_token }}',
+                    id: id
+                },   /* Passing the text data */
+                success: function (response) {
+                    alert('Added to likes section ):');
+                    alert(response);
+                    console.log(response);
+                    if (response.liked == true) {
+                        $('#' + id + ' i').css("color", "red");
+                    }
+                    else if (response.liked == false) {
+                        $('#' + id + ' i').css("color", "black");
+                    }
+                }
+            });
+        });
+    }); 
+</script>
 
 {% endblock %}

@@ -13,4 +13,4 @@ class Event(models.Model):
 
 class Like(models.Model):
     customer = models.ForeignKey(User,on_delete=models.CASCADE)
-    event = models.ForeignKey(Event,on_delete=models.SET_NULL,blank=True,null=True)
+    event = models.ForeignKey(Event,on_delete=models.SET_NULL,null=True)
